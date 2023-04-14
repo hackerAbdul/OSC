@@ -90,7 +90,11 @@ router.put('/update/:id', checkAuthentication, function(req, res) {
 router.delete('/delete/:id', checkAuthentication, (req, res) => {
     try {
         Courses.findByIdAndRemove({_id:req.params.id}).then( (course) => {
-            res.send(`Course ${course.courseTitle} has been successfully deleted`)
+            if (course){
+                res.send(`Course ${course.courseTitle} has been successfully deleted`)
+            }else{
+                res.status(404).send(`Course not be found`)
+            }
         });
     }
     catch(err){
